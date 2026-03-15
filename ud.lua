@@ -1,21 +1,20 @@
-
-
 local RunService = game:GetService("RunService")
 local Lighting = game:GetService("Lighting")
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
-local StarterGui = game:GetService("StarterGui")
 
 local player = Players.LocalPlayer
+
+if player.UserId ~= 8887992719 then return end
+
 local FPS_CAP = 30
 local lastTime = tick()
 
 RunService.RenderStepped:Connect(function()
     local now = tick()
     local targetDelta = 1 / FPS_CAP
-    while (tick() - lastTime) < targetDelta do
-    end
+    while (tick() - lastTime) < targetDelta do end
     lastTime = tick()
 end)
 
@@ -25,10 +24,10 @@ local function applyPotato()
     Lighting.EnvironmentDiffuseScale = 0
     Lighting.EnvironmentSpecularScale = 0
     Lighting.ShadowSoftness = 0
-    Lighting.FogEnd = 60          
+    Lighting.FogEnd = 60
     Lighting.FogStart = 0
-    Lighting.FogColor = Color3.fromRGB(90, 90, 90)  
-    Lighting.ClockTime = 12      
+    Lighting.FogColor = Color3.fromRGB(90, 90, 90)
+    Lighting.ClockTime = 12
 
     for _, v in ipairs(Lighting:GetChildren()) do
         if v:IsA("PostEffect") then
@@ -45,7 +44,6 @@ local function applyPotato()
             obj.Material = Enum.Material.Plastic
             obj.Reflectance = 0
             obj.CastShadow = false
-
             for _, child in ipairs(obj:GetChildren()) do
                 if child:IsA("Decal") or child:IsA("Texture") then
                     child.Transparency = 1
@@ -70,7 +68,7 @@ local function createBlackOverlay()
     if not sg then
         sg = Instance.new("ScreenGui")
         sg.Name = "BlackoutGui"
-        sg.IgnoreGuiInset = true        
+        sg.IgnoreGuiInset = true
         sg.ResetOnSpawn = false
         sg.Parent = player.PlayerGui
     end
@@ -81,17 +79,16 @@ local function createBlackOverlay()
         blackFrame.Name = "BlackFrame"
         blackFrame.Size = UDim2.new(1, 0, 1, 0)
         blackFrame.Position = UDim2.new(0, 0, 0, 0)
-        blackFrame.BackgroundColor3 = Color3.new(0, 0, 0)  
-        blackFrame.BackgroundTransparency = 0            
+        blackFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+        blackFrame.BackgroundTransparency = 0
         blackFrame.BorderSizePixel = 0
-        blackFrame.ZIndex = 9999                         
+        blackFrame.ZIndex = 9999
         blackFrame.Parent = sg
     end
-
 end
 
 task.spawn(function()
-    task.wait(1)  
+    task.wait(1)
     applyPotato()
     createBlackOverlay()
     print("Potato")
@@ -106,7 +103,7 @@ UserInputService.InputBegan:Connect(function(input, gpe)
         local tween = TweenService:Create(
             player.PlayerGui.BlackoutGui.BlackFrame,
             TweenInfo.new(0.5, Enum.EasingStyle.Linear),
-            {BackgroundTransparency = targetTrans}
+            { BackgroundTransparency = targetTrans }
         )
         tween:Play()
         print("Black screen toggled: " .. (blackVisible and "ON" or "OFF"))
