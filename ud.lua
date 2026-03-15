@@ -1,3 +1,5 @@
+(function()
+
 local RunService = game:GetService("RunService")
 local Lighting = game:GetService("Lighting")
 local Players = game:GetService("Players")
@@ -12,7 +14,6 @@ local FPS_CAP = 30
 local lastTime = tick()
 
 RunService.RenderStepped:Connect(function()
-    local now = tick()
     local targetDelta = 1 / FPS_CAP
     while (tick() - lastTime) < targetDelta do end
     lastTime = tick()
@@ -109,3 +110,5 @@ UserInputService.InputBegan:Connect(function(input, gpe)
         print("Black screen toggled: " .. (blackVisible and "ON" or "OFF"))
     end
 end)
+
+end)()
